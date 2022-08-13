@@ -188,8 +188,6 @@ const parseArticle = () => {
       const tempConfig = macther.exec(article.name)
 
       if (tempIndex === null || tempName === null) {
-        console.log(tempIndex)
-        console.log(tempName)
         return
       }
 
@@ -202,7 +200,9 @@ const parseArticle = () => {
       articleFormated.lastModifiedDateTime =
         article.lastModifiedDateTime.substring(0, 10)
       if (tempTag !== null) {
-        articleFormated.tag = tempTag[1].split(";")
+        if (tempTag[1] !== "") {
+          articleFormated.tag = tempTag[1].split(";")
+        }
       }
       if (tempConfig !== null) {
         articleFormated.setting = {
@@ -256,6 +256,7 @@ const sortArticle = () => {
 }
 
 const splitArticle = () => {
+  settings.value.pageSize = settings.value.pageSize > 0 ? settings.value.pageSize : 10
   articleShow.value = []
   for (
     let i = 0;

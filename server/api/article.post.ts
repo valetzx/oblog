@@ -1,4 +1,3 @@
-import { valueToNode } from "@babel/types";
 import { api } from "../uitl";
 
 interface ResultData {
@@ -59,39 +58,44 @@ export default defineEventHandler(async (event) => {
       errorMessage = error.message;
     });
   if (errorMessage !== "") {
-    // TODO
+    return {
+      result,
+      error: errorMessage,
+    };
   }
 
-  await api(settingUrl, { method: "GET", parseResponse: JSON.parse })
-    .then((data) => {
-      if (data && data.type) {
-        result.type = data.type;
-      }
-      if (data && data.password) {
-        if (password !== data.password) {
-          result.url = "";
+  if (settingUrl !== "") {
+    await api(settingUrl, { method: "GET", parseResponse: JSON.parse })
+      .then((data) => {
+        if (data && data.type) {
+          result.type = data.type;
+        }
+        if (data && data.password) {
+          if (password !== data.password) {
+            result.url = "";
+            needChildren = false;
+            if (result.children) {
+              delete result.children;
+            }
+            result["needPassword"] = true;
+          }
+        }
+        if (
+          result.type !== "markdown" &&
+          result.type !== "md" &&
+          result.type !== "html" &&
+          result.type !== "oblog"
+        ) {
           needChildren = false;
           if (result.children) {
             delete result.children;
           }
-          result["needPassword"] = true;
         }
-      }
-      if (
-        result.type !== "markdown" &&
-        result.type !== "md" &&
-        result.type !== "html" &&
-        result.type !== "oblog"
-      ) {
-        needChildren = false;
-        if (result.children) {
-          delete result.children;
-        }
-      }
-    })
-    .catch((error) => {
-      errorMessage = error.message;
-    });
+      })
+      .catch((error) => {
+        errorMessage = error.message;
+      });
+  }
 
   if (needChildren) {
     const directoryApis = [];
@@ -112,10 +116,12 @@ export default defineEventHandler(async (event) => {
       ) => {
         for (let i = 0; i < data.length && i < directorys.length; i++) {
           data[i].value.forEach((v) => {
-            result.children.push({
-              name: `${directorys[i].name}/${v.name}`,
-              url: v["@microsoft.graph.downloadUrl"],
-            });
+            if (v["@microsoft.graph.downloadUrl"]) {
+              result.children.push({
+                name: `${directorys[i].name}/${v.name}`,
+                url: v["@microsoft.graph.downloadUrl"],
+              });
+            }
           });
         }
       }

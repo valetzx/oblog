@@ -19,6 +19,5 @@ onMounted(() => {
     result.value = result.value.replaceAll(`href="${c.name}"`, `href="${c.url}"`)
     result.value = result.value.replaceAll(`href="./${c.name}"`, `href="${c.url}"`)
   })
-  console.log(result)
 })
 </script>

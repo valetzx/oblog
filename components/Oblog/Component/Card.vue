@@ -7,7 +7,7 @@
       {{ content }}
     </template>
     <template #footer v-if="footer !== ''">
-      {{ footer }}
+      <div v-html="footer" />
     </template>
   </i-card>
 </template>

@@ -12,5 +12,5 @@ const props = defineProps({
 })
 
 const code = JSON.parse(props.content)
-const contents: { title: string; content: string }[] = code.contents ? code.contents : []
+const contents: { title: string; content: string }[] = code ? code : []
 </script>
