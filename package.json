@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "devDependencies": {
+    "nuxt": "3.0.0-rc.5",
+    "nuxt-windicss": "^2.4.3",
+    "sass": "^1.53.0"
+  },
+  "dependencies": {
+    "@inkline/inkline": "^3.0.9",
+    "@inkline/nuxt": "^3.1.4",
+    "axios": "^0.27.2",
+    "github-markdown-css": "^5.1.0",
+    "marked": "^4.0.17"
+  }
+}
