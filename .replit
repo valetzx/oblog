@@ -2,7 +2,7 @@ entrypoint = "index.js"
 
 hidden = [".config"]
 
-run =  ["npm", "run", "dev"]
+run =  ["npm", "run", "preview"]
 
 [nix]
 channel = "stable-21_11"
